@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listening Styles Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .email-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .email-section label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .email-section input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .email-section input:focus {
+            outline: none;
+            border-color: #4A90E2;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #4A90E2;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option:hover {
+            background-color: #f0f7ff;
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #4A90E2;
+        }
+
+        .option label {
+            cursor: pointer;
+            font-size: 15px;
+            color: #555;
+            flex: 1;
+        }
+
+        .submit-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .result-content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: auto;
+        }
+
+        .result-content h1 {
+            color: #0066cc;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .result-content p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .result-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .result-content th, .result-content td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .result-content th {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .result-content .highlight {
+            background-color: #eaf5ff;
+            font-weight: bold;
+        }
+
+        .result-content .description-table th {
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        .result-content .description-table td {
+            vertical-align: top;
+        }
+
+        .score-breakdown {
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .style-section {
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .style-header {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .style-header.highlight {
+            background-color: #0052a3;
+        }
+
+        .question-breakdown {
+            background: #f9fafb;
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .question-breakdown:last-child {
+            border-bottom: none;
+        }
+
+        .question-breakdown .question-label {
+            flex: 1;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .question-breakdown .answer-label {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            text-align: right;
+        }
+
+        .question-breakdown .score-label {
+            font-weight: bold;
+            color: #0066cc;
+            font-size: 14px;
+            min-width: 30px;
+            text-align: right;
+        }
+
+        .close-btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .close-btn:hover {
+            background: #0052a3;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .form-content {
+                padding: 20px;
+            }
+
+            .question {
+                padding: 15px;
+            }
+
+            .submit-btn {
+                padding: 12px 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Listening Styles Test</h1>
+        </div>
+
+        <form id="assessmentForm" class="form-content">
+            <div class="email-section">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q1. I tend to say "That's good."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q1_7" name="q1" value="7" required>
+                        <label for="q1_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1_5" name="q1" value="5">
+                        <label for="q1_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1_3" name="q1" value="3">
+                        <label for="q1_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1_1" name="q1" value="1">
+                        <label for="q1_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q2. People sometimes say things to make me feel bad.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q2_7" name="q2" value="7" required>
+                        <label for="q2_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2_5" name="q2" value="5">
+                        <label for="q2_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2_3" name="q2" value="3">
+                        <label for="q2_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2_1" name="q2" value="1">
+                        <label for="q2_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q3. I tend to say, "You are absolutely right."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q3_7" name="q3" value="7" required>
+                        <label for="q3_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3_5" name="q3" value="5">
+                        <label for="q3_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3_3" name="q3" value="3">
+                        <label for="q3_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3_1" name="q3" value="1">
+                        <label for="q3_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q4. I tend to ask "When did it happen?"</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q4_7" name="q4" value="7" required>
+                        <label for="q4_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4_5" name="q4" value="5">
+                        <label for="q4_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4_3" name="q4" value="3">
+                        <label for="q4_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4_1" name="q4" value="1">
+                        <label for="q4_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q5. I tend to pay attention and try to understand the feelings.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q5_7" name="q5" value="7" required>
+                        <label for="q5_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q5_5" name="q5" value="5">
+                        <label for="q5_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q5_3" name="q5" value="3">
+                        <label for="q5_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q5_1" name="q5" value="1">
+                        <label for="q5_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q6. I tend to understand the person's value in the message.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q6_7" name="q6" value="7" required>
+                        <label for="q6_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q6_5" name="q6" value="5">
+                        <label for="q6_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q6_3" name="q6" value="3">
+                        <label for="q6_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q6_1" name="q6" value="1">
+                        <label for="q6_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q7. I tend to say "Now, I know why you said that."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q7_7" name="q7" value="7" required>
+                        <label for="q7_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q7_5" name="q7" value="5">
+                        <label for="q7_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q7_3" name="q7" value="3">
+                        <label for="q7_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q7_1" name="q7" value="1">
+                        <label for="q7_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q8. I tend to say, "I feel very sorry for you."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q8_7" name="q8" value="7" required>
+                        <label for="q8_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q8_5" name="q8" value="5">
+                        <label for="q8_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q8_3" name="q8" value="3">
+                        <label for="q8_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q8_1" name="q8" value="1">
+                        <label for="q8_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q9. I tend to say, "Give me an example."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q9_7" name="q9" value="7" required>
+                        <label for="q9_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q9_5" name="q9" value="5">
+                        <label for="q9_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q9_3" name="q9" value="3">
+                        <label for="q9_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q9_1" name="q9" value="1">
+                        <label for="q9_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q10. I tend to say, "I understand what you mean."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q10_7" name="q10" value="7" required>
+                        <label for="q10_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q10_5" name="q10" value="5">
+                        <label for="q10_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q10_3" name="q10" value="3">
+                        <label for="q10_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q10_1" name="q10" value="1">
+                        <label for="q10_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q11. I tend to evaluate what the speaker says is right or wrong.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q11_7" name="q11" value="7" required>
+                        <label for="q11_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q11_5" name="q11" value="5">
+                        <label for="q11_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q11_3" name="q11" value="3">
+                        <label for="q11_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q11_1" name="q11" value="1">
+                        <label for="q11_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q12. I tend to read the intention of the speaker.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q12_7" name="q12" value="7" required>
+                        <label for="q12_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q12_5" name="q12" value="5">
+                        <label for="q12_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q12_3" name="q12" value="3">
+                        <label for="q12_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q12_1" name="q12" value="1">
+                        <label for="q12_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q13. I tend to be supportive when I listen to others.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q13_7" name="q13" value="7" required>
+                        <label for="q13_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q13_5" name="q13" value="5">
+                        <label for="q13_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q13_3" name="q13" value="3">
+                        <label for="q13_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q13_1" name="q13" value="1">
+                        <label for="q13_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q14. I tend to say, "How did it happen?"</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q14_7" name="q14" value="7" required>
+                        <label for="q14_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q14_5" name="q14" value="5">
+                        <label for="q14_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q14_3" name="q14" value="3">
+                        <label for="q14_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q14_1" name="q14" value="1">
+                        <label for="q14_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q15. I tend to ask, "Are you bothered by what I say?"</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q15_7" name="q15" value="7" required>
+                        <label for="q15_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q15_5" name="q15" value="5">
+                        <label for="q15_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q15_3" name="q15" value="3">
+                        <label for="q15_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q15_1" name="q15" value="1">
+                        <label for="q15_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q16. I tend to judge the truth of what people say.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q16_7" name="q16" value="7" required>
+                        <label for="q16_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q16_5" name="q16" value="5">
+                        <label for="q16_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q16_3" name="q16" value="3">
+                        <label for="q16_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q16_1" name="q16" value="1">
+                        <label for="q16_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q17. I tend to say "Now, I know why you see things that way."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q17_7" name="q17" value="7" required>
+                        <label for="q17_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q17_5" name="q17" value="5">
+                        <label for="q17_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q17_3" name="q17" value="3">
+                        <label for="q17_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q17_1" name="q17" value="1">
+                        <label for="q17_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q18. I tend to use positive non-verbals to encourage people.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q18_7" name="q18" value="7" required>
+                        <label for="q18_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q18_5" name="q18" value="5">
+                        <label for="q18_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q18_3" name="q18" value="3">
+                        <label for="q18_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q18_1" name="q18" value="1">
+                        <label for="q18_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q19. I tend to ask questions before making a conclusion.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q19_7" name="q19" value="7" required>
+                        <label for="q19_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q19_5" name="q19" value="5">
+                        <label for="q19_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q19_3" name="q19" value="3">
+                        <label for="q19_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q19_1" name="q19" value="1">
+                        <label for="q19_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q20. I tend to say, "Mm-hmm, I see the point now."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q20_7" name="q20" value="7" required>
+                        <label for="q20_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q20_5" name="q20" value="5">
+                        <label for="q20_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q20_3" name="q20" value="3">
+                        <label for="q20_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q20_1" name="q20" value="1">
+                        <label for="q20_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q21. I try to understand who is right and who is wrong.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q21_7" name="q21" value="7" required>
+                        <label for="q21_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q21_5" name="q21" value="5">
+                        <label for="q21_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q21_3" name="q21" value="3">
+                        <label for="q21_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q21_1" name="q21" value="1">
+                        <label for="q21_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q22. I tend to say, "You are saying this to make me feel good."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q22_7" name="q22" value="7" required>
+                        <label for="q22_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q22_5" name="q22" value="5">
+                        <label for="q22_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q22_3" name="q22" value="3">
+                        <label for="q22_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q22_1" name="q22" value="1">
+                        <label for="q22_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q23. I tend to repeat what a person says to encourage him or her.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q23_7" name="q23" value="7" required>
+                        <label for="q23_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q23_5" name="q23" value="5">
+                        <label for="q23_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q23_3" name="q23" value="3">
+                        <label for="q23_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q23_1" name="q23" value="1">
+                        <label for="q23_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q24. I tend to ask, "Why do you say so?"</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q24_7" name="q24" value="7" required>
+                        <label for="q24_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q24_5" name="q24" value="5">
+                        <label for="q24_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q24_3" name="q24" value="3">
+                        <label for="q24_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q24_1" name="q24" value="1">
+                        <label for="q24_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">Q25. I tend to say "Tell me more so that I can do something."</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q25_7" name="q25" value="7" required>
+                        <label for="q25_7">Very often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q25_5" name="q25" value="5">
+                        <label for="q25_5">Quite often</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q25_3" name="q25" value="3">
+                        <label for="q25_3">Seldom</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q25_1" name="q25" value="1">
+                        <label for="q25_1">Very seldom</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn">Submit Assessment</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="resultModal" class="result-modal">
+        <div class="result-content">
+            <h1>Your Listening Style Test Results</h1>
+            <p>Hello,</p>
+            <p>Thank you for completing the Listening Style Test. Below are your results as of <b><span id="resultDate"></span></b>.</p>
+
+            <p><b>Your dominant listening style<span id="stylePlural"></span>:</b> 
+            <span style="color:#0066cc;font-weight:bold;" id="styleSummary"></span></p>
+
+            <table>
+                <tr>
+                    <th>Style</th>
+                    <th>Score</th>
+                </tr>
+                <tbody id="scoresTable"></tbody>
+            </table>
+
+            <table class="description-table" style="margin-top:25px;">
+                <tr>
+                    <th style="text-align:left;">Style</th>
+                    <th style="text-align:left;">Description</th>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">A: JUDGMENTAL</td>
+                    <td>• Judge what is good or bad, right or wrong based on own values</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">B: INTERPRETIVE</td>
+                    <td>• Interpret intention or guess motive of speaker</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">C: SUPPORTIVE</td>
+                    <td>• Show support, encouragement and approval</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">D: PROBING</td>
+                    <td>• Ask questions to get a complete picture</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">E: UNDERSTANDING</td>
+                    <td>• Listen actively to understand situation fully and respond appropriately</td>
+                </tr>
+            </table>
+            <div id="detailedScores">
+
+            </div>
+
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Question mapping to listening styles
+        // A: Judgmental (Q1, Q6, Q11, Q16, Q21)
+        // B: Interpretive (Q2, Q7, Q12, Q17, Q22)
+        // C: Supportive (Q3, Q8, Q13, Q18, Q23)
+        // D: Probing (Q4, Q9, Q14, Q19, Q24)
+        // E: Understanding (Q5, Q10, Q15, Q20, Q25)
+        
+        const styleMapping = {
+            'A': [1, 6, 11, 16, 21],      // Judgmental
+            'B': [2, 7, 12, 17, 22],      // Interpretive
+            'C': [3, 8, 13, 18, 23],      // Supportive
+            'D': [4, 9, 14, 19, 24],      // Probing
+            'E': [5, 10, 15, 20, 25]      // Understanding
+        };
+
+        const fullStyles = [
+            'A: JUDGMENTAL',
+            'B: INTERPRETIVE',
+            'C: SUPPORTIVE',
+            'D: PROBING',
+            'E: UNDERSTANDING'
+        ];
+
+        const questionTexts = {
+            1: 'I tend to say "That\'s good."',
+            2: 'People sometimes say things to make me feel bad.',
+            3: 'I tend to say, "You are absolutely right."',
+            4: 'I tend to ask "When did it happen?"',
+            5: 'I tend to pay attention and try to understand the feelings.',
+            6: 'I tend to understand the person\'s value in the message.',
+            7: 'I tend to say "Now, I know why you said that."',
+            8: 'I tend to say, "I feel very sorry for you."',
+            9: 'I tend to say, "Give me an example."',
+            10: 'I tend to say, "I understand what you mean."',
+            11: 'I tend to evaluate what the speaker says is right or wrong.',
+            12: 'I tend to read the intention of the speaker.',
+            13: 'I tend to be supportive when I listen to others.',
+            14: 'I tend to say, "How did it happen?"',
+            15: 'I tend to ask, "Are you bothered by what I say?"',
+            16: 'I tend to judge the truth of what people say.',
+            17: 'I tend to say "Now, I know why you see things that way."',
+            18: 'I tend to use positive non-verbals to encourage people.',
+            19: 'I tend to ask questions before making a conclusion.',
+            20: 'I tend to say, "Mm-hmm, I see the point now."',
+            21: 'I try to understand who is right and who is wrong.',
+            22: 'I tend to say, "You are saying this to make me feel good."',
+            23: 'I tend to repeat what a person says to encourage him or her.',
+            24: 'I tend to ask, "Why do you say so?"',
+            25: 'I tend to say "Tell me more so that I can do something."'
+        };
+
+        const answerLabels = {
+            '7': 'Very often',
+            '5': 'Quite often',
+            '3': 'Seldom',
+            '1': 'Very seldom'
+        };
+
+        document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            
+            // Store question responses
+            const questionResponses = {};
+            for (let i = 1; i <= 25; i++) {
+                const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selectedOption) {
+                    questionResponses[i] = {
+                        score: parseInt(selectedOption.value),
+                        label: answerLabels[selectedOption.value]
+                    };
+                }
+            }
+
+            // Calculate scores for each style
+            const styleScores = {
+                'A': 0,
+                'B': 0,
+                'C': 0,
+                'D': 0,
+                'E': 0
+            };
+
+            // Calculate scores based on question mapping
+            for (const [style, questions] of Object.entries(styleMapping)) {
+                questions.forEach(qNum => {
+                    if (questionResponses[qNum]) {
+                        styleScores[style] += questionResponses[qNum].score;
+                    }
+                });
+            }
+
+            // Find dominant style(s) - highest score(s)
+            const maxScore = Math.max(...Object.values(styleScores));
+            const dominantStyles = Object.keys(styleScores).filter(style => styleScores[style] === maxScore);
+
+            // Prepare results
+            const styleSummary = dominantStyles.map(s => fullStyles[['A', 'B', 'C', 'D', 'E'].indexOf(s)]).join(', ');
+
+            // Display date
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('resultDate').textContent = dateStr;
+
+            // Display plural/singular
+            document.getElementById('stylePlural').textContent = dominantStyles.length > 1 ? 's are' : ' is';
+
+            // Display dominant style summary
+            document.getElementById('styleSummary').textContent = styleSummary;
+
+            // Build detailed score breakdown
+            const detailedScoresDiv = document.getElementById('detailedScores');
+            detailedScoresDiv.innerHTML = '<div class="score-breakdown"></div>';
+            const breakdownDiv = detailedScoresDiv.querySelector('.score-breakdown');
+
+            ['A', 'B', 'C', 'D', 'E'].forEach((styleKey, index) => {
+                const styleName = fullStyles[index];
+                const totalScore = styleScores[styleKey];
+                const isHighlighted = dominantStyles.includes(styleKey);
+                const questions = styleMapping[styleKey];
+
+                const styleSection = document.createElement('div');
+                styleSection.className = 'style-section';
+                
+                const header = document.createElement('div');
+                header.className = isHighlighted ? 'style-header highlight' : 'style-header';
+                header.textContent = `${styleName} | ${totalScore}`;
+                styleSection.appendChild(header);
+
+                questions.forEach(qNum => {
+                    const response = questionResponses[qNum];
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-breakdown';
+                    questionDiv.innerHTML = `
+                        <div class="question-label">Q${qNum}: ${questionTexts[qNum]}</div>
+                        <div class="answer-label">${response.label}</div>
+                        <div class="score-label">${response.score}</div>
+                    `;
+                    styleSection.appendChild(questionDiv);
+                });
+
+                breakdownDiv.appendChild(styleSection);
+            });
+
+            // Show modal
+            document.getElementById('resultModal').style.display = 'flex';
+
+            // Log data for backend integration
+            console.log('Email:', email);
+            console.log('Date:', dateStr);
+            console.log('Style Scores:', styleScores);
+            console.log('Dominant Style(s):', dominantStyles);
+        });
+        
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+            document.getElementById('assessmentForm').reset();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('resultModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
