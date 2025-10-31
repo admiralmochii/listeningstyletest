@@ -175,9 +175,9 @@
         .modal-wrapper {
             min-height: 100%;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .result-content {
@@ -1011,10 +1011,184 @@
             '1': 'Very seldom'
         };
 
-        document.getElementById('assessmentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Add this before the form submit event listener
+        document.getElementById('assessmentForm').addEventListener('invalid', function(e) {
+            const target = e.target;
 
-            const email = document.getElementById('email').value;
+            if (target.type === "radio") {
+                e.preventDefault();
+            
+                // Find first invalid field
+                const firstInvalid = document.querySelector('input:invalid');
+                
+                if (firstInvalid) {
+                    // Scroll to the question containing the invalid input
+                    const questionDiv = firstInvalid.closest('.question');
+                    if (questionDiv) {
+                        questionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Add a highlight effect
+                        questionDiv.style.borderLeft = '4px solid #ff4444';
+                        setTimeout(() => {
+                            questionDiv.style.borderLeft = '4px solid #4A90E2';
+                        }, 2000);
+                    }
+                }
+            }
+        }, true);
+
+        // Email validation handler on blur (for format checking)
+        document.getElementById('email').addEventListener('blur', function(e) {
+            const email = e.target.value.trim();
+            const emailSection = document.querySelector('.email-section');
+            const emailInput = document.getElementById('email');
+            
+            // Remove any existing error message
+            const existingError = emailSection.querySelector('.email-error');
+            if (existingError) {
+                existingError.remove();
+            }
+            
+            // Reset styling
+            emailInput.style.borderColor = '#e0e0e0';
+            
+            if (!email) {
+                return; // Don't validate if empty (required attribute handles this)
+            }
+            
+            let errorMessage = '';
+            
+            // Check for @ symbol
+            if (!email.includes('@')) {
+                errorMessage = 'Email must contain @ symbol';
+            }
+            // Check for domain
+            else if (!email.includes('.') || email.indexOf('.') < email.indexOf('@')) {
+                errorMessage = 'Email must include a valid domain (e.g., .com, .org)';
+            }
+            // Check basic format
+            else {
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(email)) {
+                    errorMessage = 'Please enter a valid email address';
+                }
+            }
+            
+            // Show error if validation failed
+            if (errorMessage) {
+                emailInput.style.borderColor = '#ff4444';
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'email-error';
+                errorDiv.textContent = errorMessage;
+                errorDiv.style.color = '#ff4444';
+                errorDiv.style.fontSize = '14px';
+                errorDiv.style.marginTop = '5px';
+                errorDiv.style.animation = 'fadeIn 0.3s ease-in';
+                
+                emailSection.appendChild(errorDiv);
+                
+                // Remove error after 3 seconds
+                setTimeout(() => {
+                    if (errorDiv.parentElement) {
+                        errorDiv.style.animation = 'fadeOut 0.3s ease-out';
+                        setTimeout(() => errorDiv.remove(), 300);
+                    }
+                }, 3000);
+            }
+        });
+
+        // Clear error styling when user starts typing
+        document.getElementById('email').addEventListener('input', function(e) {
+            const emailInput = e.target;
+            const emailSection = document.querySelector('.email-section');
+            const existingError = emailSection.querySelector('.email-error');
+            
+            if (existingError) {
+                existingError.remove();
+            }
+            
+            emailInput.style.borderColor = '#e0e0e0';
+        });
+
+        document.getElementById('assessmentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            // Remove e.stopPropagation() - it's blocking radio button validation
+
+            const email = document.getElementById('email').value.trim();
+            const emailInput = document.getElementById('email');
+            const emailSection = document.querySelector('.email-section');
+            const submitBtn = document.querySelector('.submit-btn');
+
+            // Validate email format
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            
+            // Check if email is empty FIRST before anything else
+            if (!email) {
+                emailInput.style.borderColor = '#ff4444';
+                emailSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => emailInput.focus(), 300);
+                showError('Please enter your email address');
+                return false;
+            }
+            
+            // Check for @ symbol
+            if (!email.includes('@')) {
+                emailInput.style.borderColor = '#ff4444';
+                emailSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => emailInput.focus(), 300);
+                showError('Email must contain @ symbol');
+                return false;
+            }
+            
+            // Check for domain
+            if (!email.includes('.') || email.indexOf('.') < email.indexOf('@')) {
+                emailInput.style.borderColor = '#ff4444';
+                emailSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => emailInput.focus(), 300);
+                showError('Email must include a valid domain (e.g., .com, .org)');
+                return false;
+            }
+            
+            // Check email format with regex
+            if (!emailRegex.test(email)) {
+                emailInput.style.borderColor = '#ff4444';
+                emailSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => emailInput.focus(), 300);
+                showError('Please enter a valid email address');
+                return false;
+            }
+
+            // Reset border if validation passes
+            emailInput.style.borderColor = '#e0e0e0';
+            
+            // Check if all questions are answered
+            let allAnswered = true;
+            let firstUnanswered = null;
+            
+            for (let i = 1; i <= 25; i++) {
+                const answered = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!answered) {
+                    allAnswered = false;
+                    if (!firstUnanswered) {
+                        firstUnanswered = i;
+                    }
+                }
+            }
+            
+            if (!allAnswered) {
+                const firstQuestion = document.querySelector(`input[name="q${firstUnanswered}"]`);
+                const questionDiv = firstQuestion.closest('.question');
+                if (questionDiv) {
+                    questionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    questionDiv.style.borderLeft = '4px solid #ff4444';
+                    setTimeout(() => {
+                        questionDiv.style.borderLeft = '4px solid #4A90E2';
+                    }, 2000);
+                }
+                showError('Please answer all questions before submitting');
+                return false;
+            }
             
             // Store question responses
             const questionResponses = {};
@@ -1056,62 +1230,150 @@
             // Display date
             const now = new Date();
             const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('resultDate').textContent = dateStr;
 
-            // Display plural/singular
-            document.getElementById('stylePlural').textContent = dominantStyles.length > 1 ? 's are' : ' is';
+            // Build the scores object with individual question scores
+            const scores = {
+                A_total: styleScores.A,
+                B_total: styleScores.B,
+                C_total: styleScores.C,
+                D_total: styleScores.D,
+                E_total: styleScores.E,
+                A_indv: {
+                    Q1: questionResponses[1]?.score || 0,
+                    Q6: questionResponses[6]?.score || 0,
+                    Q11: questionResponses[11]?.score || 0,
+                    Q16: questionResponses[16]?.score || 0,
+                    Q21: questionResponses[21]?.score || 0
+                },
+                B_indv: {
+                    Q2: questionResponses[2]?.score || 0,
+                    Q7: questionResponses[7]?.score || 0,
+                    Q12: questionResponses[12]?.score || 0,
+                    Q17: questionResponses[17]?.score || 0,
+                    Q22: questionResponses[22]?.score || 0
+                },
+                C_indv: {
+                    Q3: questionResponses[3]?.score || 0,
+                    Q8: questionResponses[8]?.score || 0,
+                    Q13: questionResponses[13]?.score || 0,
+                    Q18: questionResponses[18]?.score || 0,
+                    Q23: questionResponses[23]?.score || 0
+                },
+                D_indv: {
+                    Q4: questionResponses[4]?.score || 0,
+                    Q9: questionResponses[9]?.score || 0,
+                    Q14: questionResponses[14]?.score || 0,
+                    Q19: questionResponses[19]?.score || 0,
+                    Q24: questionResponses[24]?.score || 0
+                },
+                E_indv: {
+                    Q5: questionResponses[5]?.score || 0,
+                    Q10: questionResponses[10]?.score || 0,
+                    Q15: questionResponses[15]?.score || 0,
+                    Q20: questionResponses[20]?.score || 0,
+                    Q25: questionResponses[25]?.score || 0
+                }
+            };
 
-            // Display dominant style summary
-            document.getElementById('styleSummary').textContent = styleSummary;
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
 
-            // Build detailed score breakdown
-            const detailedScoresDiv = document.getElementById('detailedScores');
-            detailedScoresDiv.innerHTML = '<div class="score-breakdown"></div>';
-            const breakdownDiv = detailedScoresDiv.querySelector('.score-breakdown');
-
-            ['A', 'B', 'C', 'D', 'E'].forEach((styleKey, index) => {
-                const styleName = fullStyles[index];
-                const totalScore = styleScores[styleKey];
-                const isHighlighted = dominantStyles.includes(styleKey);
-                const questions = styleMapping[styleKey];
-
-                const styleSection = document.createElement('div');
-                styleSection.className = 'style-section';
-                
-                const header = document.createElement('div');
-                header.className = isHighlighted ? 'style-header' : 'style-header';
-                header.textContent = `${styleName} | ${totalScore}`;
-                styleSection.appendChild(header);
-
-                questions.forEach(qNum => {
-                    const response = questionResponses[qNum];
-                    const questionDiv = document.createElement('div');
-                    questionDiv.className = 'question-breakdown';
-                    questionDiv.innerHTML = `
-                        <div class="question-label">Q${qNum}: ${questionTexts[qNum]}</div>
-                        <div class="answer-label">${response.label}</div>
-                        <div class="score-label">${response.score}</div>
-                    `;
-                    styleSection.appendChild(questionDiv);
+            try {
+                const response = await fetch("https://submitlisteningtest-vt3zitxszq-uc.a.run.app", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        scores: scores,
+                        date: dateStr,
+                        dominant_styles: dominantStyles
+                    })
                 });
 
-                breakdownDiv.appendChild(styleSection);
-            });
+                const result = await response.json();
 
-            // Show modal
-            const modal = document.getElementById('resultModal');
-            const modalContent = document.querySelector('#resultModal .result-content');
-            modal.classList.add('show');
-            modalContent.scrollTo({ top: 0, behavior: 'smooth' })
-            document.body.style.overflow = 'hidden';
+                if (!response.ok) {
+                    showError(result.error || 'Failed to submit. Please try again.');
+                    return false;
+                }
 
-            // Log data for backend integration
-            console.log('Email:', email);
-            console.log('Date:', dateStr);
-            console.log('Style Scores:', styleScores);
-            console.log('Dominant Style(s):', dominantStyles);
+                // Success - show results in modal
+                document.getElementById('resultDate').textContent = dateStr;
+                document.getElementById('stylePlural').textContent = dominantStyles.length > 1 ? 's are' : ' is';
+                document.getElementById('styleSummary').textContent = styleSummary;
+
+                // Build detailed score breakdown
+                const detailedScoresDiv = document.getElementById('detailedScores');
+                detailedScoresDiv.innerHTML = '<div class="score-breakdown"></div>';
+                const breakdownDiv = detailedScoresDiv.querySelector('.score-breakdown');
+
+                ['A', 'B', 'C', 'D', 'E'].forEach((styleKey, index) => {
+                    const styleName = fullStyles[index];
+                    const totalScore = styleScores[styleKey];
+                    const isHighlighted = dominantStyles.includes(styleKey);
+                    const questions = styleMapping[styleKey];
+
+                    const styleSection = document.createElement('div');
+                    styleSection.className = 'style-section';
+                    
+                    const header = document.createElement('div');
+                    header.className = isHighlighted ? 'style-header highlight' : 'style-header';
+                    header.textContent = `${styleName} | ${totalScore}`;
+                    styleSection.appendChild(header);
+
+                    questions.forEach(qNum => {
+                        const response = questionResponses[qNum];
+                        const questionDiv = document.createElement('div');
+                        questionDiv.className = 'question-breakdown';
+                        questionDiv.innerHTML = `
+                            <div class="question-label">Q${qNum}: ${questionTexts[qNum]}</div>
+                            <div class="answer-label">${response.label}</div>
+                            <div class="score-label">${response.score}</div>
+                        `;
+                        styleSection.appendChild(questionDiv);
+                    });
+
+                    breakdownDiv.appendChild(styleSection);
+                });
+
+                // Show modal
+                const modal = document.getElementById('resultModal');
+                modal.classList.add('show');
+                modal.scrollTop = 0;
+                document.body.style.overflow = 'hidden';
+
+                console.log('Submission successful:', result);
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                showError('Network error. Please check your connection and try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Assessment';
+            }
+            
+            return false;
         });
-        
+
+        // Error display function
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-banner';
+            errorDiv.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">✕</button>
+            `;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(errorDiv, container.firstChild);
+            
+            setTimeout(() => errorDiv.remove(), 5000);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function closeModal() {
             const modal = document.getElementById('resultModal');
             modal.classList.remove('show');

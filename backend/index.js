@@ -1,32 +1,40 @@
-const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
-const { getFirestore, Timestamp, FieldValue, Filter } = require('firebase-admin/firestore');
+// functions/index.js
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 
-const express = require('express');
-const cors = require('cors');
+admin.initializeApp();
 
-const bodyParser = require('body-parser');
+// HTTP Function - receives form data
+exports.submitListeningTest = functions.https.onRequest(async (req, res) => {
+    // Enable CORS
+    res.set('Access-Control-Allow-Origin', 'https://robotic-casing-476704-v4.web.app');
+    
+    if (req.method === 'POST') {
+      const { email, results} = req.body;
+        
+      // Check if email already exists
+      const snapshot = await admin.firestore()
+          .collection('test_results')
+          .where('email', '==', email)
+          .get();
+        
+      if (!snapshot.empty) {
+          //patch instead of post
 
-const PORT = process.env.PORT || 5050;
-const app = express();
+          return res.status(200).json({ success: true })
+      }        
 
+      // Save to Firestore
+      await admin.firestore().collection('test_results').add({
+          email: email,
+          results: results,
+          timestamp: admin.firestore.FieldValue.serverTimestamp()
+      });
+        
+      return res.status(200).json({ success: true });
+    }
 
-const corsOptions = {
-  origin: ['http://192.168.11.3', 'http://127.0.0.1', "http://localhost:4173", "http://localhost:5173"],  // Allow requests from this address / このアドレスからのリクエストを許可する
-};
-
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port: http://localhost:${PORT}`);
+    if (req.method === "GET") {
+      return res.status(200).json({success:true})
+    }
 });
-
-router = express.Router()
-
-initializeApp();
-
-const db = getFirestore();
-
-router.get("/test_results", async (req,res) => {
-
-})
