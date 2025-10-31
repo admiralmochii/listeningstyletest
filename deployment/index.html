@@ -105,6 +105,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s;
+            position: relative;
         }
 
         .option:hover {
@@ -117,6 +118,7 @@
             margin-right: 12px;
             cursor: pointer;
             accent-color: #4A90E2;
+            flex-shrink: 0;
         }
 
         .option label {
@@ -124,6 +126,7 @@
             font-size: 15px;
             color: #555;
             flex: 1;
+            user-select: none;
         }
 
         .submit-section {
@@ -160,10 +163,20 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
             z-index: 1000;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .result-modal.show {
+            display: block;
+        }
+
+        .modal-wrapper {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
@@ -337,22 +350,23 @@
                 <input type="email" id="email" name="email" required placeholder="your.email@example.com">
             </div>
 
+            <!-- Questions 1-25 -->
             <div class="question">
                 <div class="question-text">Q1. I tend to say "That's good."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q1_7').checked = true">
                         <input type="radio" id="q1_7" name="q1" value="7" required>
                         <label for="q1_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q1_5').checked = true">
                         <input type="radio" id="q1_5" name="q1" value="5">
                         <label for="q1_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q1_3').checked = true">
                         <input type="radio" id="q1_3" name="q1" value="3">
                         <label for="q1_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q1_1').checked = true">
                         <input type="radio" id="q1_1" name="q1" value="1">
                         <label for="q1_1">Very seldom</label>
                     </div>
@@ -362,19 +376,19 @@
             <div class="question">
                 <div class="question-text">Q2. People sometimes say things to make me feel bad.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q2_7').checked = true">
                         <input type="radio" id="q2_7" name="q2" value="7" required>
                         <label for="q2_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q2_5').checked = true">
                         <input type="radio" id="q2_5" name="q2" value="5">
                         <label for="q2_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q2_3').checked = true">
                         <input type="radio" id="q2_3" name="q2" value="3">
                         <label for="q2_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q2_1').checked = true">
                         <input type="radio" id="q2_1" name="q2" value="1">
                         <label for="q2_1">Very seldom</label>
                     </div>
@@ -384,19 +398,19 @@
             <div class="question">
                 <div class="question-text">Q3. I tend to say, "You are absolutely right."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q3_7').checked = true">
                         <input type="radio" id="q3_7" name="q3" value="7" required>
                         <label for="q3_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q3_5').checked = true">
                         <input type="radio" id="q3_5" name="q3" value="5">
                         <label for="q3_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q3_3').checked = true">
                         <input type="radio" id="q3_3" name="q3" value="3">
                         <label for="q3_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q3_1').checked = true">
                         <input type="radio" id="q3_1" name="q3" value="1">
                         <label for="q3_1">Very seldom</label>
                     </div>
@@ -406,19 +420,19 @@
             <div class="question">
                 <div class="question-text">Q4. I tend to ask "When did it happen?"</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q4_7').checked = true">
                         <input type="radio" id="q4_7" name="q4" value="7" required>
                         <label for="q4_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q4_5').checked = true">
                         <input type="radio" id="q4_5" name="q4" value="5">
                         <label for="q4_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q4_3').checked = true">
                         <input type="radio" id="q4_3" name="q4" value="3">
                         <label for="q4_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q4_1').checked = true">
                         <input type="radio" id="q4_1" name="q4" value="1">
                         <label for="q4_1">Very seldom</label>
                     </div>
@@ -428,19 +442,19 @@
             <div class="question">
                 <div class="question-text">Q5. I tend to pay attention and try to understand the feelings.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q5_7').checked = true">
                         <input type="radio" id="q5_7" name="q5" value="7" required>
                         <label for="q5_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q5_5').checked = true">
                         <input type="radio" id="q5_5" name="q5" value="5">
                         <label for="q5_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q5_3').checked = true">
                         <input type="radio" id="q5_3" name="q5" value="3">
                         <label for="q5_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q5_1').checked = true">
                         <input type="radio" id="q5_1" name="q5" value="1">
                         <label for="q5_1">Very seldom</label>
                     </div>
@@ -450,19 +464,19 @@
             <div class="question">
                 <div class="question-text">Q6. I tend to understand the person's value in the message.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q6_7').checked = true">
                         <input type="radio" id="q6_7" name="q6" value="7" required>
                         <label for="q6_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q6_5').checked = true">
                         <input type="radio" id="q6_5" name="q6" value="5">
                         <label for="q6_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q6_3').checked = true">
                         <input type="radio" id="q6_3" name="q6" value="3">
                         <label for="q6_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q6_1').checked = true">
                         <input type="radio" id="q6_1" name="q6" value="1">
                         <label for="q6_1">Very seldom</label>
                     </div>
@@ -472,19 +486,19 @@
             <div class="question">
                 <div class="question-text">Q7. I tend to say "Now, I know why you said that."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q7_7').checked = true">
                         <input type="radio" id="q7_7" name="q7" value="7" required>
                         <label for="q7_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q7_5').checked = true">
                         <input type="radio" id="q7_5" name="q7" value="5">
                         <label for="q7_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q7_3').checked = true">
                         <input type="radio" id="q7_3" name="q7" value="3">
                         <label for="q7_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q7_1').checked = true">
                         <input type="radio" id="q7_1" name="q7" value="1">
                         <label for="q7_1">Very seldom</label>
                     </div>
@@ -494,19 +508,19 @@
             <div class="question">
                 <div class="question-text">Q8. I tend to say, "I feel very sorry for you."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q8_7').checked = true">
                         <input type="radio" id="q8_7" name="q8" value="7" required>
                         <label for="q8_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q8_5').checked = true">
                         <input type="radio" id="q8_5" name="q8" value="5">
                         <label for="q8_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q8_3').checked = true">
                         <input type="radio" id="q8_3" name="q8" value="3">
                         <label for="q8_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q8_1').checked = true">
                         <input type="radio" id="q8_1" name="q8" value="1">
                         <label for="q8_1">Very seldom</label>
                     </div>
@@ -516,19 +530,19 @@
             <div class="question">
                 <div class="question-text">Q9. I tend to say, "Give me an example."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q9_7').checked = true">
                         <input type="radio" id="q9_7" name="q9" value="7" required>
                         <label for="q9_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q9_5').checked = true">
                         <input type="radio" id="q9_5" name="q9" value="5">
                         <label for="q9_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q9_3').checked = true">
                         <input type="radio" id="q9_3" name="q9" value="3">
                         <label for="q9_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q9_1').checked = true">
                         <input type="radio" id="q9_1" name="q9" value="1">
                         <label for="q9_1">Very seldom</label>
                     </div>
@@ -538,19 +552,19 @@
             <div class="question">
                 <div class="question-text">Q10. I tend to say, "I understand what you mean."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q10_7').checked = true">
                         <input type="radio" id="q10_7" name="q10" value="7" required>
                         <label for="q10_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q10_5').checked = true">
                         <input type="radio" id="q10_5" name="q10" value="5">
                         <label for="q10_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q10_3').checked = true">
                         <input type="radio" id="q10_3" name="q10" value="3">
                         <label for="q10_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q10_1').checked = true">
                         <input type="radio" id="q10_1" name="q10" value="1">
                         <label for="q10_1">Very seldom</label>
                     </div>
@@ -560,19 +574,19 @@
             <div class="question">
                 <div class="question-text">Q11. I tend to evaluate what the speaker says is right or wrong.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q11_7').checked = true">
                         <input type="radio" id="q11_7" name="q11" value="7" required>
                         <label for="q11_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q11_5').checked = true">
                         <input type="radio" id="q11_5" name="q11" value="5">
                         <label for="q11_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q11_3').checked = true">
                         <input type="radio" id="q11_3" name="q11" value="3">
                         <label for="q11_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q11_1').checked = true">
                         <input type="radio" id="q11_1" name="q11" value="1">
                         <label for="q11_1">Very seldom</label>
                     </div>
@@ -582,19 +596,19 @@
             <div class="question">
                 <div class="question-text">Q12. I tend to read the intention of the speaker.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q12_7').checked = true">
                         <input type="radio" id="q12_7" name="q12" value="7" required>
                         <label for="q12_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q12_5').checked = true">
                         <input type="radio" id="q12_5" name="q12" value="5">
                         <label for="q12_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q12_3').checked = true">
                         <input type="radio" id="q12_3" name="q12" value="3">
                         <label for="q12_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q12_1').checked = true">
                         <input type="radio" id="q12_1" name="q12" value="1">
                         <label for="q12_1">Very seldom</label>
                     </div>
@@ -604,19 +618,19 @@
             <div class="question">
                 <div class="question-text">Q13. I tend to be supportive when I listen to others.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q13_7').checked = true">
                         <input type="radio" id="q13_7" name="q13" value="7" required>
                         <label for="q13_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q13_5').checked = true">
                         <input type="radio" id="q13_5" name="q13" value="5">
                         <label for="q13_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q13_3').checked = true">
                         <input type="radio" id="q13_3" name="q13" value="3">
                         <label for="q13_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q13_1').checked = true">
                         <input type="radio" id="q13_1" name="q13" value="1">
                         <label for="q13_1">Very seldom</label>
                     </div>
@@ -626,19 +640,19 @@
             <div class="question">
                 <div class="question-text">Q14. I tend to say, "How did it happen?"</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q14_7').checked = true">
                         <input type="radio" id="q14_7" name="q14" value="7" required>
                         <label for="q14_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q14_5').checked = true">
                         <input type="radio" id="q14_5" name="q14" value="5">
                         <label for="q14_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q14_3').checked = true">
                         <input type="radio" id="q14_3" name="q14" value="3">
                         <label for="q14_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q14_1').checked = true">
                         <input type="radio" id="q14_1" name="q14" value="1">
                         <label for="q14_1">Very seldom</label>
                     </div>
@@ -648,19 +662,19 @@
             <div class="question">
                 <div class="question-text">Q15. I tend to ask, "Are you bothered by what I say?"</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q15_7').checked = true">
                         <input type="radio" id="q15_7" name="q15" value="7" required>
                         <label for="q15_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q15_5').checked = true">
                         <input type="radio" id="q15_5" name="q15" value="5">
                         <label for="q15_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q15_3').checked = true">
                         <input type="radio" id="q15_3" name="q15" value="3">
                         <label for="q15_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q15_1').checked = true">
                         <input type="radio" id="q15_1" name="q15" value="1">
                         <label for="q15_1">Very seldom</label>
                     </div>
@@ -670,19 +684,19 @@
             <div class="question">
                 <div class="question-text">Q16. I tend to judge the truth of what people say.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q16_7').checked = true">
                         <input type="radio" id="q16_7" name="q16" value="7" required>
                         <label for="q16_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q16_5').checked = true">
                         <input type="radio" id="q16_5" name="q16" value="5">
                         <label for="q16_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q16_3').checked = true">
                         <input type="radio" id="q16_3" name="q16" value="3">
                         <label for="q16_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q16_1').checked = true">
                         <input type="radio" id="q16_1" name="q16" value="1">
                         <label for="q16_1">Very seldom</label>
                     </div>
@@ -692,19 +706,19 @@
             <div class="question">
                 <div class="question-text">Q17. I tend to say "Now, I know why you see things that way."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q17_7').checked = true">
                         <input type="radio" id="q17_7" name="q17" value="7" required>
                         <label for="q17_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q17_5').checked = true">
                         <input type="radio" id="q17_5" name="q17" value="5">
                         <label for="q17_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q17_3').checked = true">
                         <input type="radio" id="q17_3" name="q17" value="3">
                         <label for="q17_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q17_1').checked = true">
                         <input type="radio" id="q17_1" name="q17" value="1">
                         <label for="q17_1">Very seldom</label>
                     </div>
@@ -714,19 +728,19 @@
             <div class="question">
                 <div class="question-text">Q18. I tend to use positive non-verbals to encourage people.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q18_7').checked = true">
                         <input type="radio" id="q18_7" name="q18" value="7" required>
                         <label for="q18_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q18_5').checked = true">
                         <input type="radio" id="q18_5" name="q18" value="5">
                         <label for="q18_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q18_3').checked = true">
                         <input type="radio" id="q18_3" name="q18" value="3">
                         <label for="q18_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q18_1').checked = true">
                         <input type="radio" id="q18_1" name="q18" value="1">
                         <label for="q18_1">Very seldom</label>
                     </div>
@@ -736,19 +750,19 @@
             <div class="question">
                 <div class="question-text">Q19. I tend to ask questions before making a conclusion.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q19_7').checked = true">
                         <input type="radio" id="q19_7" name="q19" value="7" required>
                         <label for="q19_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q19_5').checked = true">
                         <input type="radio" id="q19_5" name="q19" value="5">
                         <label for="q19_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q19_3').checked = true">
                         <input type="radio" id="q19_3" name="q19" value="3">
                         <label for="q19_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q19_1').checked = true">
                         <input type="radio" id="q19_1" name="q19" value="1">
                         <label for="q19_1">Very seldom</label>
                     </div>
@@ -758,19 +772,19 @@
             <div class="question">
                 <div class="question-text">Q20. I tend to say, "Mm-hmm, I see the point now."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q20_7').checked = true">
                         <input type="radio" id="q20_7" name="q20" value="7" required>
                         <label for="q20_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q20_5').checked = true">
                         <input type="radio" id="q20_5" name="q20" value="5">
                         <label for="q20_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q20_3').checked = true">
                         <input type="radio" id="q20_3" name="q20" value="3">
                         <label for="q20_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q20_1').checked = true">
                         <input type="radio" id="q20_1" name="q20" value="1">
                         <label for="q20_1">Very seldom</label>
                     </div>
@@ -780,19 +794,19 @@
             <div class="question">
                 <div class="question-text">Q21. I try to understand who is right and who is wrong.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q21_7').checked = true">
                         <input type="radio" id="q21_7" name="q21" value="7" required>
                         <label for="q21_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q21_5').checked = true">
                         <input type="radio" id="q21_5" name="q21" value="5">
                         <label for="q21_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q21_3').checked = true">
                         <input type="radio" id="q21_3" name="q21" value="3">
                         <label for="q21_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q21_1').checked = true">
                         <input type="radio" id="q21_1" name="q21" value="1">
                         <label for="q21_1">Very seldom</label>
                     </div>
@@ -802,19 +816,19 @@
             <div class="question">
                 <div class="question-text">Q22. I tend to say, "You are saying this to make me feel good."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q22_7').checked = true">
                         <input type="radio" id="q22_7" name="q22" value="7" required>
                         <label for="q22_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q22_5').checked = true">
                         <input type="radio" id="q22_5" name="q22" value="5">
                         <label for="q22_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q22_3').checked = true">
                         <input type="radio" id="q22_3" name="q22" value="3">
                         <label for="q22_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q22_1').checked = true">
                         <input type="radio" id="q22_1" name="q22" value="1">
                         <label for="q22_1">Very seldom</label>
                     </div>
@@ -824,19 +838,19 @@
             <div class="question">
                 <div class="question-text">Q23. I tend to repeat what a person says to encourage him or her.</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q23_7').checked = true">
                         <input type="radio" id="q23_7" name="q23" value="7" required>
                         <label for="q23_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q23_5').checked = true">
                         <input type="radio" id="q23_5" name="q23" value="5">
                         <label for="q23_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q23_3').checked = true">
                         <input type="radio" id="q23_3" name="q23" value="3">
                         <label for="q23_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q23_1').checked = true">
                         <input type="radio" id="q23_1" name="q23" value="1">
                         <label for="q23_1">Very seldom</label>
                     </div>
@@ -846,19 +860,19 @@
             <div class="question">
                 <div class="question-text">Q24. I tend to ask, "Why do you say so?"</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q24_7').checked = true">
                         <input type="radio" id="q24_7" name="q24" value="7" required>
                         <label for="q24_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q24_5').checked = true">
                         <input type="radio" id="q24_5" name="q24" value="5">
                         <label for="q24_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q24_3').checked = true">
                         <input type="radio" id="q24_3" name="q24" value="3">
                         <label for="q24_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q24_1').checked = true">
                         <input type="radio" id="q24_1" name="q24" value="1">
                         <label for="q24_1">Very seldom</label>
                     </div>
@@ -868,19 +882,19 @@
             <div class="question">
                 <div class="question-text">Q25. I tend to say "Tell me more so that I can do something."</div>
                 <div class="options">
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q25_7').checked = true">
                         <input type="radio" id="q25_7" name="q25" value="7" required>
                         <label for="q25_7">Very often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q25_5').checked = true">
                         <input type="radio" id="q25_5" name="q25" value="5">
                         <label for="q25_5">Quite often</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q25_3').checked = true">
                         <input type="radio" id="q25_3" name="q25" value="3">
                         <label for="q25_3">Seldom</label>
                     </div>
-                    <div class="option">
+                    <div class="option" onclick="document.getElementById('q25_1').checked = true">
                         <input type="radio" id="q25_1" name="q25" value="1">
                         <label for="q25_1">Very seldom</label>
                     </div>
@@ -894,53 +908,47 @@
     </div>
 
     <div id="resultModal" class="result-modal">
-        <div class="result-content">
-            <h1>Your Listening Style Test Results</h1>
-            <p>Hello,</p>
-            <p>Thank you for completing the Listening Style Test. Below are your results as of <b><span id="resultDate"></span></b>.</p>
+        <div class="modal-wrapper">
+            <div class="result-content">
+                <h1>Your Listening Style Test Results</h1>
+                <p>Hello,</p>
+                <p>Thank you for completing the Listening Style Test. Below are your results as of <b><span id="resultDate"></span></b>.</p>
 
-            <p><b>Your dominant listening style<span id="stylePlural"></span>:</b> 
-            <span style="color:#0066cc;font-weight:bold;" id="styleSummary"></span></p>
+                <p><b>Your dominant listening style<span id="stylePlural"></span>:</b> 
+                <br>
+                <span style="color:#0066cc;font-weight:bold;" id="styleSummary"></span></p>
 
-            <table>
-                <tr>
-                    <th>Style</th>
-                    <th>Score</th>
-                </tr>
-                <tbody id="scoresTable"></tbody>
-            </table>
+                <div id="detailedScores"></div>
 
-            <table class="description-table" style="margin-top:25px;">
-                <tr>
-                    <th style="text-align:left;">Style</th>
-                    <th style="text-align:left;">Description</th>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">A: JUDGMENTAL</td>
-                    <td>• Judge what is good or bad, right or wrong based on own values</td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">B: INTERPRETIVE</td>
-                    <td>• Interpret intention or guess motive of speaker</td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">C: SUPPORTIVE</td>
-                    <td>• Show support, encouragement and approval</td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">D: PROBING</td>
-                    <td>• Ask questions to get a complete picture</td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">E: UNDERSTANDING</td>
-                    <td>• Listen actively to understand situation fully and respond appropriately</td>
-                </tr>
-            </table>
-            <div id="detailedScores">
+                <table class="description-table" style="margin-top:25px;">
+                    <tr>
+                        <th style="text-align:left;">Style</th>
+                        <th style="text-align:left;">Description</th>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">A: JUDGMENTAL</td>
+                        <td>• Judge what is good or bad, right or wrong based on own values</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">B: INTERPRETIVE</td>
+                        <td>• Interpret intention or guess motive of speaker</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">C: SUPPORTIVE</td>
+                        <td>• Show support, encouragement and approval</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">D: PROBING</td>
+                        <td>• Ask questions to get a complete picture</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">E: UNDERSTANDING</td>
+                        <td>• Listen actively to understand situation fully and respond appropriately</td>
+                    </tr>
+                </table>
 
+                <button class="close-btn" onclick="closeModal()">Close</button>
             </div>
-
-            <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
 
@@ -1091,7 +1099,9 @@
             });
 
             // Show modal
-            document.getElementById('resultModal').style.display = 'flex';
+            const modal = document.getElementById('resultModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
 
             // Log data for backend integration
             console.log('Email:', email);
@@ -1101,7 +1111,9 @@
         });
         
         function closeModal() {
-            document.getElementById('resultModal').style.display = 'none';
+            const modal = document.getElementById('resultModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
             document.getElementById('assessmentForm').reset();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
