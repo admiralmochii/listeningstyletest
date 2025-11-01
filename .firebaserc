@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "robotic-casing-476704-v4"
+  },
+  "targets": {
+    "robotic-casing-476704-v4": {
+      "hosting": {
+        "alisteningstyletest": [
+          "alisteningstyletest"
+        ]
+      }
+    }
   }
 }

@@ -5,11 +5,17 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 // HTTP Function - receives form data
-exports.submitListeningTest = functions.https.onRequest( { cors: ["https://robotic-casing-476704-v4.web.app", "https://robotic-casing-476704-v4.firebaseapp.com"]}, async (req, res) => {
+exports.ListeningTestBackend = functions.https.onRequest({region:'asia-southeast1', cors:["https://alisteningstyletest.web.app","https://alisteningstyletest.firebaseapp.com","https://listeningtestanalytics.web.app","https://listeningtestanalytics.firebaseapp.com"]}, async (req, res) => {
+
     // Enable CORS
     // res.set('Access-Control-Allow-Origin', 'https://robotic-casing-476704-v4.web.app');
     res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
     res.set('Access-Control-Allow-Headers', 'Content-Type');
+
+    // Handle preflight OPTIONS request
+    if (req.method === 'OPTIONS') {
+      return res.status(204).send('');
+    }
 
     try {
       if (req.method === 'POST') {
@@ -109,6 +115,36 @@ exports.submitListeningTest = functions.https.onRequest( { cors: ["https://robot
     }
 
     if (req.method === "GET") {
-      return res.status(200).json({success:true})
+      try {
+        const snapshot = await admin.firestore().collection("test_results").get();
+
+        // Check if collection is empty
+        if (snapshot.empty) {
+          return res.status(200).json({ 
+            success: true, 
+            data: [],
+            count: 0
+          });
+        }
+
+        const results = snapshot.docs.map(doc => ({
+          id: doc.id,
+          scores: doc.data().scores,
+          dominant_styles: doc.data().dominant_styles,
+        }))
+
+        return res.status(200).json({
+          success: true,
+          data: results,
+          count: results.length
+        })
+
+      } catch (error) {
+        console.error("Error fetching test results: ", error);
+        return res.status(500).json({
+          success:false,
+          error: "Failed to fetch test results. "
+        });
+      }
     }
 });
